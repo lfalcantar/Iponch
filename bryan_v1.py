@@ -24,7 +24,7 @@ sol = {}
 for i in range(len(troncos)):
     for j in range(len(piezas)):
         sol['{},{}'.format(i,j)]= plp.LpVariable( \
-        'Tronco:{}, pieza:{}'.format(troncos[i],piezas[j]),\
+        'Tronco:{},pieza:{}'.format(troncos[i],piezas[j]),\
         lowBound=0 , upBound=lim_sup[j], \
         cat='Integer')
 
@@ -37,26 +37,25 @@ for i in range(len(troncos)):
     p += troncos[i] - s
 iponch += p
 
-## Constraint: Conservacion de Masa
+## Constraints:
+# Conservacion de Masa
 for i in range(len(troncos)):
     c = 0
     for j in range(len(piezas)):
         c +=  sol['{},{}'.format(i,j)]*piezas[j]
     iponch += c <= troncos[i]
-
-
+# Requerimiento de piezas
 for i in range(len(lim_inf)):
     nn=0
     for j in range(len(troncos)):
         nn +=  sol['{},{}'.format(j,i)]
-    print(nn,lim_inf[i])
     iponch += nn >= lim_inf[i]
 
+## OUTPUT
 #print(iponch)
-#Reporte
-status=iponch.solve()
-print(plp.value(iponch.objective))
-print('Criteria',plp.LpStatus[iponch.status])
+iponch.solve()
+print('Desperdicio = ',plp.value(iponch.objective))
+print('Caracterizacion: ',plp.LpStatus[iponch.status])
 for variable in iponch.variables():
    print("{} = {}".format(variable.name, variable.varValue))
 
