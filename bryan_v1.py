@@ -60,24 +60,6 @@ print('Criteria',plp.LpStatus[iponch.status])
 for variable in iponch.variables():
    print("{} = {}".format(variable.name, variable.varValue))
 
-# x = plp.LpVariable('x', lowBound=0 , cat='Integer')
-# y = plp.LpVariable('y', lowBound=0 , cat='Integer')
-
-# # Waste Function
-# iponch += 4*x + 3*y , "W"
-#
-# # Constraints
-# iponch += 2*y <= 25 - x
-# iponch += 4*y >= 2*x - 8
-# iponch += y <= 2*x - 5
-
-#status=iponch.solve()
-#print(plp.value(iponch.objective))
-#print('Criteria',plp.LpStatus[iponch.status])
-
-#for variable in iponch.variables():
-#    print("{} = {}".format(variable.name, variable.varValue))
-
 
 # cutStock.py stock=[13, 10] requiredSizes=[5,2]
 #
