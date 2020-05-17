@@ -2,9 +2,9 @@ import pulp as plp
 import numpy as np
 
 ## Input:
-troncos = np.array([100,13,17,22]) # \in \R^m
-piezas = np.array([7,5,3,2]) # \in \R^n
-lim_inf = np.array([7,4,1,2]) # limite inferior
+troncos = np.array([13]) # \in \R^m
+piezas = np.array([5,7]) # \in \R^n
+lim_inf = np.array([2,0]) # limite inferior
 
 ## Limite superior
 #   Basado en total produccion de una pieza sobre todos los troncos
@@ -19,7 +19,6 @@ iponch = plp.LpProblem("iponch_p",plp.LpMinimize)
 #   Suponemos que la solucion es un vector \in \R^{m x n}
 #   donde 'm' es el numero de troncos y 'n' el numero de piezas
 sol = {}
-
 # rutina
 for i in range(len(troncos)):
     for j in range(len(piezas)):
