@@ -52,7 +52,7 @@ for i in range(len(lim_inf)):
     print(nn,lim_inf[i])
     iponch += nn >= lim_inf[i]
 
-print(iponch)
+#print(iponch)
 #Reporte
 status=iponch.solve()
 print(plp.value(iponch.objective))
