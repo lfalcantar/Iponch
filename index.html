@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Cutting Optimizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --background-dark: #1a1a1a;
+            --background-light: #2b2b2b;
+            --text-color: #ffffff;
+            --border-color: #404040;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 100vh;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .language-selector {
+            background-color: var(--background-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .left-panel, .right-panel {
+            background-color: var(--background-light);
+            border-radius: 8px;
+            padding: 20px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .input-guide {
+            margin-bottom: 20px;
+        }
+
+        .guide-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .example {
+            background-color: var(--background-dark);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .help-icon {
+            margin-left: 8px;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        .input-field {
+            width: 100%;
+            background-color: var(--background-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .calculate-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .calculate-btn:hover {
+            opacity: 0.9;
+        }
+
+        .results {
+            background-color: var(--background-dark);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+
+        .visualization {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vis-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #visualization-container {
+            flex: 1;
+            overflow-y: auto;
+            background-color: var(--background-dark);
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            max-width: 200px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Stock Cutting Optimizer</h1>
+            <select class="language-selector" id="language-selector">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+            </select>
+        </div>
+
+        <div class="left-panel">
+            <div class="input-guide">
+                <h2 class="guide-title">Input Guide</h2>
+                <div class="example">
+                    Example: Stock: 13,10 | Pieces: 5,2 | Quantities: 2,0
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-label">
+                    <span>Step 1: Enter available stock lengths</span>
+                    <span class="help-icon" data-tooltip="Enter lengths separated by commas (e.g., 13,10)">?</span>
+                </div>
+                <input type="text" id="stock-sizes" class="input-field" placeholder="e.g., 13,10" value="13,10">
+            </div>
+
+            <div class="input-group">
+                <div class="input-label">
+                    <span>Step 2: Enter required piece lengths</span>
+                    <span class="help-icon" data-tooltip="Enter required lengths separated by commas (e.g., 5,2)">?</span>
+                </div>
+                <input type="text" id="required-sizes" class="input-field" placeholder="e.g., 5,2" value="5,2">
+            </div>
+
+            <div class="input-group">
+                <div class="input-label">
+                    <span>Step 3: Enter minimum quantities needed</span>
+                    <span class="help-icon" data-tooltip="Enter minimum quantities for each required length (e.g., 2,0)">?</span>
+                </div>
+                <input type="text" id="min-quantities" class="input-field" placeholder="e.g., 2,0" value="2,0">
+            </div>
+
+            <button class="calculate-btn" onclick="calculate()">Calculate</button>
+
+            <div class="results" id="results"></div>
+        </div>
+
+        <div class="right-panel">
+            <div class="visualization">
+                <h2 class="vis-title">Visualization</h2>
+                <div id="visualization-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="solver.js"></script>
+    <script src="main.js"></script>
+</body>
+</html> 

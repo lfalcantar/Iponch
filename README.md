@@ -1,63 +1,101 @@
 # Stock Cutting Optimizer
 
-This project provides tools for optimizing stock cutting patterns to minimize waste. It includes both a command-line interface and a graphical user interface.
+A web-based tool for optimizing stock cutting patterns to minimize waste. The application helps determine the most efficient way to cut stock material into required pieces while meeting minimum quantity requirements.
 
-## Dependencies
+## Features
 
-- Python 3.x
-- numpy
-- pulp
-- tkinter (usually comes with Python)
+- Modern, responsive web interface
+- Real-time visualization of cutting patterns
+- Bilingual support (English/Spanish)
+- Interactive tooltips and help guides
+- Detailed results and waste calculations
+- Dark theme UI
 
-Install the required packages using pip:
+## Prerequisites
+
+- A modern web browser (Chrome, Firefox, Safari, or Edge)
+- No additional software installation required
+
+## Running the Project
+
+### Option 1: Using a Local Web Server
+
+1. Clone or download the repository
+2. Open a terminal/command prompt in the project directory
+3. Start a local web server using one of these methods:
+
+#### Using Python (if installed):
 ```bash
-pip install numpy pulp
+# Python 3
+python -m http.server 8000
+
+# Python 2
+python -m SimpleHTTPServer 8000
 ```
 
-## Running the Application
-
-### GUI Version
-Run the graphical user interface:
+#### Using Node.js (if installed):
 ```bash
-python stock_cutter_gui.py
+npx http-server
 ```
 
-The GUI allows you to input:
-- Stock Sizes: Comma-separated list of available stock lengths
-- Required Sizes: Comma-separated list of required piece lengths
-- Minimum Quantities: Comma-separated list of minimum quantities needed for each required size
+4. Open your web browser and navigate to:
+   - `http://localhost:8000` (if using Python)
+   - `http://localhost:8080` (if using Node.js)
 
-Example input:
-- Stock Sizes: 13,10
-- Required Sizes: 5,2
-- Minimum Quantities: 2,0
+### Option 2: Direct File Access
 
-### Command Line Version
-Run the command-line version:
-```bash
-python bryan_v1.py
+1. Simply open the `index.html` file in your web browser
+2. Note: Some features might be limited due to browser security restrictions
+
+## Usage
+
+1. Enter available stock lengths (comma-separated)
+   - Example: `13,10`
+
+2. Enter required piece lengths (comma-separated)
+   - Example: `5,2`
+
+3. Enter minimum quantities needed (comma-separated)
+   - Example: `2,0`
+
+4. Click "Calculate" to see the results
+
+## Input Format
+
+- All inputs should be comma-separated numbers
+- Stock sizes: Available lengths of material
+- Required sizes: Lengths of pieces needed
+- Minimum quantities: Minimum number of each required piece
+
+Example:
+```
+Stock: 13,10
+Pieces: 5,2
+Quantities: 2,0
 ```
 
-## Output Format
+## Output
 
-The application will output:
+The application provides:
+- Total stock length used
 - Total waste
+- Detailed cutting patterns
+- Visual representation of cuts
 - Optimization status
-- Detailed cutting patterns showing how to cut each stock piece
 
-Example output:
-```
-Waste = 2.0
-Status: Optimal
+## Troubleshooting
 
-Cutting Patterns:
-Tronco:13,pieza:5 = 2.0
-Tronco:13,pieza:2 = 1.0
-```
+If you encounter any issues:
+1. Ensure all inputs are valid numbers
+2. Check that required piece sizes are not larger than stock sizes
+3. Verify that total required length does not exceed available stock
+4. Try using a different web browser
+5. Make sure JavaScript is enabled in your browser
 
-## Authors
-- Luis Alcantar @lfalcnatar
-- Bryan Felix @bryanfelixg
+## Contributing
 
-Version: 0.2
-Date: April 4, 2024
+Feel free to submit issues and enhancement requests.
+
+## License
+
+This project is open source and available under the MIT License.
